@@ -17,10 +17,9 @@ web_ui.h                 interface web (HTML/CSS/JS em PROGMEM)
 ```
 
 > **Importante:** o Arduino exige que a **pasta** tenha o **mesmo nome do
-> arquivo `.ino`**. Ao clonar este repositório, renomeie a pasta para
-> `ESP32_8CH_Relay_HA` (ou seja, a pasta deve conter
-> `ESP32_8CH_Relay_HA/ESP32_8CH_Relay_HA.ino`). Sem isso, a IDE/CLI não abre o
-> sketch. O workflow de CI faz essa preparação automaticamente.
+> arquivo `.ino`**. Este repositório já se chama `ESP32_8CH_Relay_HA`, então
+> basta cloná-lo e abrir `ESP32_8CH_Relay_HA/ESP32_8CH_Relay_HA.ino`. Se você
+> renomear a pasta por algum motivo, mantenha o nome idêntico ao do `.ino`.
 
 ## Compilar pela Arduino IDE
 

@@ -4,7 +4,7 @@
 
 ### Painel web + MQTT com auto-descoberta no Home Assistant + Portal cativo
 
-[![Compilar firmware](https://github.com/mpsc/esp32-8ch-relay-ha/actions/workflows/compile.yml/badge.svg)](https://github.com/mpsc/esp32-8ch-relay-ha/actions/workflows/compile.yml)
+[![Compilar firmware](https://github.com/mpsc/ESP32_8CH_Relay_HA/actions/workflows/compile.yml/badge.svg)](https://github.com/mpsc/ESP32_8CH_Relay_HA/actions/workflows/compile.yml)
 [![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0.1-success.svg)](CHANGELOG.md)
 [![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE)
 [![Placa](https://img.shields.io/badge/placa-ESP32--D0WD--V3-informational.svg)](docs/HARDWARE.md)

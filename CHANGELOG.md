@@ -33,5 +33,5 @@ e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 - Suporte a mDNS (`http://<id>.local`).
 - API HTTP em JSON para integrações.
 
-[1.0.1]: https://github.com/mpsc/esp32-8ch-relay-ha/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/mpsc/esp32-8ch-relay-ha/releases/tag/v1.0.0
+[1.0.1]: https://github.com/mpsc/ESP32_8CH_Relay_HA/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/mpsc/ESP32_8CH_Relay_HA/releases/tag/v1.0.0

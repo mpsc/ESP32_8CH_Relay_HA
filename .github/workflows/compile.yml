@@ -32,17 +32,11 @@ jobs:
           arduino-cli lib install PubSubClient
           arduino-cli lib install ArduinoJson
 
-      # O Arduino exige que a pasta tenha o mesmo nome do arquivo .ino.
-      # Como a pasta do repositório tem outro nome, copiamos o sketch para
-      # uma pasta corretamente nomeada antes de compilar.
-      - name: Preparar o sketch
-        run: |
-          mkdir -p build/ESP32_8CH_Relay_HA
-          cp ESP32_8CH_Relay_HA.ino web_ui.h build/ESP32_8CH_Relay_HA/
-
+      # O repositório se chama ESP32_8CH_Relay_HA — o mesmo nome do arquivo
+      # .ino (o Arduino exige que a pasta tenha o mesmo nome do .ino).
       - name: Compilar
         run: |
           arduino-cli compile \
             --fqbn esp32:esp32:esp32 \
             --warnings more \
-            build/ESP32_8CH_Relay_HA
+            .
