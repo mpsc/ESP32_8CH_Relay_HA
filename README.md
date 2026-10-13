@@ -8,6 +8,7 @@
 [![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0.1-success.svg)](CHANGELOG.md)
 [![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE)
 [![Placa](https://img.shields.io/badge/placa-ESP32--D0WD--V3-informational.svg)](docs/HARDWARE.md)
+[![Apoie](https://img.shields.io/badge/Apoie-doacao-orange.svg)](#apoie-este-projeto)
 
 Firmware para **ESP32** que controla **8 relés (somente saídas)** com uma
 interface web moderna, pronta para o **Home Assistant** e configurável 100%
@@ -33,6 +34,7 @@ pelo navegador.
 - [Solução de problemas](#solução-de-problemas)
 - [Documentação](#documentação)
 - [Contribuindo](#contribuindo)
+- [Apoie este projeto](#apoie-este-projeto)
 - [Licença](#licença)
 
 ## Recursos
@@ -181,6 +183,20 @@ Mais respostas na seção **Perguntas frequentes** do
 Sugestões e correções são bem-vindas! Veja
 [CONTRIBUTING.md](CONTRIBUTING.md). Este projeto segue o
 [Código de Conduta](CODE_OF_CONDUCT.md).
+
+## Apoie este projeto
+
+Este projeto é gratuito e de código aberto. Se ele foi útil para você,
+considere fazer uma doação — qualquer valor ajuda a manter o desenvolvimento e
+a criar novos sistemas e controles para automação!
+
+[![Doar com PayPal](https://img.shields.io/badge/PayPal-Doar-00457C?logo=paypal&logoColor=white)](https://www.paypal.com/donate/?business=CCQMVDFQXNLCW&no_recurring=0&item_name=Se+puder+me+ajude+a+construir+outros+sistemas+e+controles+para+ajudar+nas+automa%C3%A7%C3%B5es%21&currency_code=BRL)
+
+**PIX** — chave aleatória (passe o mouse sobre o bloco e clique no ícone para copiar):
+
+```
+b897f5e5-b141-49bc-a787-8ffae93b6873
+```
 
 ## Licença
 
