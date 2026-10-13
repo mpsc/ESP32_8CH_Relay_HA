@@ -7,6 +7,20 @@ e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
 ## [Não lançado]
 
+### Adicionado
+
+- [`docs/LICENCAS.md`](docs/LICENCAS.md): licenças do projeto e de terceiros,
+  créditos e aviso de marcas.
+
+### Alterado
+
+- **Capturas de tela** (`docs/images/`) regeradas com **dados fictícios** — as
+  versões anteriores expunham o SSID da rede, IPs locais e redes Wi-Fi vizinhas.
+- Aviso de que o projeto é **independente** (sem vínculo com Espressif, Arduino
+  ou Home Assistant).
+- Repositório renomeado para **`ESP32_8CH_Relay_HA`**; o CI passou a compilar o
+  sketch direto na raiz (o nome da pasta já coincide com o do `.ino`).
+
 ## [1.0.1] - 2026-10-13
 
 ### Corrigido

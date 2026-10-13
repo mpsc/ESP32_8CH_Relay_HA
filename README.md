@@ -172,6 +172,7 @@ Mais respostas na seção **Perguntas frequentes** do
 | [docs/HARDWARE.md](docs/HARDWARE.md) | Pinagem, ligação e segurança |
 | [docs/MQTT_HOME_ASSISTANT.md](docs/MQTT_HOME_ASSISTANT.md) | Tópicos e integração com o HA |
 | [docs/API.md](docs/API.md) | Referência da API HTTP |
+| [docs/LICENCAS.md](docs/LICENCAS.md) | Licenças e créditos de terceiros |
 | [CHANGELOG.md](CHANGELOG.md) | Histórico de versões |
 | [SECURITY.md](SECURITY.md) | Boas práticas de segurança |
 
@@ -184,6 +185,11 @@ Sugestões e correções são bem-vindas! Veja
 ## Licença
 
 Distribuído sob a licença **[MIT](LICENSE)**.
+
+Este é um projeto **independente**, sem vínculo ou endosso da Espressif, do
+Arduino ou do Home Assistant — essas marcas pertencem aos seus titulares e são
+citadas apenas de forma descritiva. Créditos de bibliotecas e marcas de
+terceiros em **[docs/LICENCAS.md](docs/LICENCAS.md)**.
 
 ---
 
