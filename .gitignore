@@ -1,0 +1,13 @@
+# Build / artefatos
+build/
+*.bin
+*.elf
+*.map
+*.hex
+
+# Screenshots de revisão local
+preview-*.png
+
+# Sistema
+Thumbs.db
+.DS_Store
