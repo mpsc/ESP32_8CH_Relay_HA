@@ -30,7 +30,7 @@
 #include "web_ui.h"
 
 // ------------------------------------------------------------------ Constantes
-#define FW_VERSION   "1.0.0"
+#define FW_VERSION   "1.0.1"
 #define NUM_OUT      8
 #define AP_PASS      "12345678"     // >= 8 caracteres (WPA2)
 #define AP_RETRY_MS  300000UL       // 5 min sem cliente no AP -> tenta reconectar

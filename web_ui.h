@@ -144,8 +144,8 @@ const char PAGE_INDEX[] PROGMEM = R"rawliteral(
   <section class="grid" id="grid"></section>
 
   <div class="bar">
-    <button class="btn" onclick="all('ON')">Ligar todas</button>
-    <button class="btn ghost" onclick="all('OFF')">Desligar todas</button>
+    <button class="btn" id="onAll" type="button">Ligar todas</button>
+    <button class="btn ghost" id="offAll" type="button">Desligar todas</button>
   </div>
 
   <details>
@@ -233,7 +233,9 @@ async function load(){
   }catch(e){$('mqtt').textContent='sem conexão';$('mqtt').className='v bad';}
 }
 async function set(i,on){paint(i,on);await fetch('/api/out?ch='+(i+1)+'&state='+(on?'ON':'OFF'));load();}
-async function all(v){await fetch('/api/all?state='+v);load();}
+async function setAll(v){await fetch('/api/all?state='+v);load();}
+$('onAll').onclick=()=>setAll('ON');
+$('offAll').onclick=()=>setAll('OFF');
 load();setInterval(load,3000);
 </script></body></html>
 )rawliteral";
