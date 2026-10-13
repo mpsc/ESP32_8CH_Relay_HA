@@ -1,68 +1,126 @@
-# ESP32 · 8 Saídas (Relés) com Painel Web + MQTT / Home Assistant
+<div align="center">
 
-Firmware para **ESP32** que controla **8 relés (somente saídas)** com:
+# ESP32 · 8 Saídas (Relés)
 
-- **Painel web moderno** (responsivo, tema claro/escuro automático) para ligar/desligar as 8 saídas individualmente ou todas de uma vez
-- **MQTT com auto-descoberta no Home Assistant** — as 8 saídas aparecem automaticamente como `switch`, além de sensores de diagnóstico (sinal Wi-Fi, tempo ligado, IP) e um botão de reiniciar
-- **Portal cativo** — na primeira ligação (ou sem Wi-Fi salvo), o dispositivo cria a rede `ESP32-8CH-XXXX` e abre sozinho a página de configuração
-- **Configuração 100% pela página web** — rede Wi-Fi, servidor MQTT, nomes das saídas, polaridade do relé e restauração de estado; tudo salvo na NVS (memória não volátil)
-- **mDNS** — acesse pelo endereço `http://<id>.local`
+### Painel web + MQTT com auto-descoberta no Home Assistant + Portal cativo
 
-## Hardware
+[![Compilar firmware](https://github.com/mpsc/esp32-8ch-relay-ha/actions/workflows/compile.yml/badge.svg)](https://github.com/mpsc/esp32-8ch-relay-ha/actions/workflows/compile.yml)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0.1-success.svg)](CHANGELOG.md)
+[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE)
+[![Placa](https://img.shields.io/badge/placa-ESP32--D0WD--V3-informational.svg)](docs/HARDWARE.md)
+
+Firmware para **ESP32** que controla **8 relés (somente saídas)** com uma
+interface web moderna, pronta para o **Home Assistant** e configurável 100%
+pelo navegador.
+
+<img src="docs/images/painel-web.png" alt="Painel web" width="720">
+
+</div>
+
+---
+
+## Índice
+
+- [Recursos](#recursos)
+- [Hardware e pinagem](#hardware-e-pinagem)
+- [Instalação](#instalação)
+- [Primeira configuração (portal cativo)](#primeira-configuração-portal-cativo)
+- [Painel de controle](#painel-de-controle)
+- [MQTT e Home Assistant](#mqtt-e-home-assistant)
+- [API HTTP](#api-http)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Compilação (CI)](#compilação-ci)
+- [Solução de problemas](#solução-de-problemas)
+- [Documentação](#documentação)
+- [Contribuindo](#contribuindo)
+- [Licença](#licença)
+
+## Recursos
+
+- 🔌 **8 saídas digitais** (relés) — acionamento individual ou todas de uma vez.
+- 🌐 **Painel web responsivo**, com tema **claro/escuro automático** — funciona
+  em celular e computador, sem app.
+- 🏠 **MQTT com auto-descoberta no Home Assistant** — as 8 saídas e os sensores
+  aparecem sozinhos (sem editar `configuration.yaml`).
+- 📡 **Portal cativo** — na primeira ligação, cria a rede `ESP32-8CH-XXXX` e
+  abre a página de configuração automaticamente.
+- ⚙️ **Configuração pela web** salva em NVS: Wi-Fi, MQTT, nomes das saídas,
+  polaridade dos relés e restauração de estado.
+- 🔗 **mDNS** — acesso por `http://<id>.local`.
+- 🧰 **API HTTP em JSON** para scripts e integrações.
+- 🩺 Telemetria no HA: sinal Wi-Fi, tempo ligado e endereço IP, além de um
+  botão de reiniciar.
+
+## Hardware e pinagem
 
 | Item | Valor |
 |---|---|
-| Placa | ESP32-D0WD-V3 (ESP32 clássico, dual-core), 4 MB flash |
-| Conector | USB via CP2102 (ou similar) |
-| Saídas | GPIO **16, 17, 18, 19, 23, 25, 26, 27** |
-| Relés | 8 módulos/módulo de 8 relés (comum ativo em nível baixo) |
+| Placa | **ESP32-D0WD-V3** (ESP32 clássico), 4 MB de flash |
+| Conexão USB | CP2102 (ou CH340) |
+| Saídas | **GPIO 16, 17, 18, 19, 23, 25, 26, 27** |
 
-> Se os relés ligarem "ao contrário", marque **"Relé ativo em nível baixo (invertido)"** na página de configuração.
+| Saída | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| GPIO | 16 | 17 | 18 | 19 | 23 | 25 | 26 | 27 |
 
-## Bibliotecas
+> Detalhes de ligação, alimentação, polaridade e **segurança elétrica** em
+> [docs/HARDWARE.md](docs/HARDWARE.md). ⚠️ Relés podem comutar 110/220 V.
 
-- **PubSubClient** (Nick O'Leary)
-- **ArduinoJson** 7.x (Benoit Blanchon)
+## Instalação
 
-`WiFi`, `WebServer`, `DNSServer`, `Preferences` e `ESPmDNS` vêm do core do ESP32.
-
-## Compilar e gravar
-
-Com o Arduino IDE (ou o `arduino-cli` que vem embutido nele):
+Precisa de: **Arduino IDE 2.x** (ou `arduino-cli`), core **esp32:esp32**
+(teste em 2.0.17) e as bibliotecas **PubSubClient** e **ArduinoJson 7.x**.
 
 ```bash
-# Compilar (core esp32:esp32)
-arduino-cli compile --fqbn esp32:esp32:esp32 ESP32_8CH_Relay_HA
+arduino-cli core install esp32:esp32@2.0.17
+arduino-cli lib install PubSubClient
+arduino-cli lib install ArduinoJson   # 7.x
 
-# Gravar (ajuste a porta COM)
-arduino-cli upload -p COM3 --fqbn esp32:esp32:esp32 ESP32_8CH_Relay_HA
+# A pasta do sketch deve ter o mesmo nome do .ino (veja INSTALACAO.md)
+arduino-cli compile --fqbn esp32:esp32:esp32 ESP32_8CH_Relay_HA
+arduino-cli upload  -p COM3 --fqbn esp32:esp32:esp32 ESP32_8CH_Relay_HA
 ```
+
+Passo a passo completo (IDE e CLI, além de problemas comuns de gravação) em
+**[docs/INSTALACAO.md](docs/INSTALACAO.md)**.
 
 ## Primeira configuração (portal cativo)
 
-1. Sem Wi-Fi salvo, o ESP32 cria a rede **`ESP32-8CH-XXXX`** (senha `12345678`).
-2. Conecte o celular/PC nessa rede — a página de configuração abre sozinha (ou acesse `http://192.168.4.1`).
-3. Escolha a rede Wi-Fi na lista, informe o servidor MQTT (IP do Home Assistant) e salve.
-4. O dispositivo reinicia e conecta à sua rede. Acesse `http://<id>.local` ou veja o IP no roteador / Home Assistant.
+1. Conecte-se à rede **`ESP32-8CH-XXXX`** (senha **`12345678`**).
+2. A página de configuração abre sozinha — ou acesse **http://192.168.4.1**.
+3. Escolha a rede Wi-Fi, informe o MQTT (IP do Home Assistant) e **Salvar**.
+4. Acesse o dispositivo em **`http://esp32_8ch_XXXXXX.local`** (ou pelo IP).
 
-## Tópicos MQTT
+## Painel de controle
 
-Base: `esp32/<device_id>` (ex.: `esp32/esp32_8ch_154b00`)
+<div align="center">
+<img src="docs/images/painel-mobile.png" alt="Painel no celular" width="280">
+</div>
 
-| Tópico | Direção | Descrição |
-|---|---|---|
-| `<base>/status` | pub (LWT) | Disponibilidade `online`/`offline` |
-| `<base>/outN/state` | pub | Estado da saída N (`ON`/`OFF`, retido) |
-| `<base>/outN/set` | sub | Comando da saída N (`ON`/`OFF`) |
-| `<base>/rssi` | pub | Sinal Wi-Fi (dBm) |
-| `<base>/uptime` | pub | Tempo ligado (s) |
-| `<base>/ip` | pub | Endereço IP |
-| `<base>/cmd/restart` | sub | Reiniciar (`PRESS`) |
+- **Barra de status:** rede, IP, sinal Wi-Fi, MQTT e tempo ligado.
+- **Canais:** nome, GPIO, LED indicador e interruptor por saída.
+- **Ligar/Desligar todas:** comandos gerais.
+- **Diagnóstico MQTT:** broker, tópicos por canal e teste sugerido.
 
-A auto-descoberta é publicada em `homeassistant/<component>/<device_id>/<entity>/config`
-(o prefixo é configurável na página web).
+Passo a passo de **todas as funções** em **[docs/MANUAL.md](docs/MANUAL.md)**.
 
-## Endpoints da API web
+## MQTT e Home Assistant
+
+Configure o mesmo broker no firmware e na integração **MQTT** do Home Assistant.
+As entidades são criadas automaticamente:
+
+| Entidade | Tipo |
+|---|---|
+| Saída 1…8 | `switch` |
+| Sinal Wi-Fi | `sensor` (signal_strength) |
+| Tempo ligado | `sensor` (duration) |
+| Endereço IP | `sensor` (diagnostic) |
+| Reiniciar | `button` |
+
+Tópicos base: `esp32/<device_id>`. Tabela completa, exemplos de teste e cartão
+Lovelace em **[docs/MQTT_HOME_ASSISTANT.md](docs/MQTT_HOME_ASSISTANT.md)**.
+
+## API HTTP
 
 | Endpoint | Descrição |
 |---|---|
@@ -74,15 +132,63 @@ A auto-descoberta é publicada em `homeassistant/<component>/<device_id>/<entity
 | `GET /api/discovery` | Reenvia a auto-descoberta |
 | `GET /api/restart` | Reinicia o dispositivo |
 
-## Estrutura
+Referência completa com exemplos em **[docs/API.md](docs/API.md)**.
+
+## Estrutura do projeto
 
 ```
-ESP32_8CH_Relay_HA.ino   firmware (lógica, Wi-Fi, MQTT, web, portal cativo)
+ESP32_8CH_Relay_HA.ino   firmware (Wi-Fi, MQTT/HA, web, portal cativo)
 web_ui.h                 interface web (HTML/CSS/JS em PROGMEM)
+docs/                    manual, API, MQTT, hardware, instalação
+.github/                 CI (compilação) e templates de issue/PR
+CHANGELOG.md             histórico de versões
 ```
 
-## Notas
+## Compilação (CI)
 
-- Estado das saídas pode ser restaurado após reiniciar (configurável).
-- Sem servidor MQTT configurado, o painel web funciona normalmente.
-- Em modo portal cativo, após 5 minutos sem nenhum cliente conectado o dispositivo reinicia para tentar reconectar ao Wi-Fi salvo.
+O workflow [`.github/workflows/compile.yml`](.github/workflows/compile.yml)
+compila o sketch a cada *push*/PR usando `arduino-cli` com o core `esp32:esp32`.
+
+## Solução de problemas
+
+| Problema | Solução |
+|---|---|
+| Relés ligam "ao contrário" | Marque **"Relé ativo em nível baixo (invertido)"** em `/config` |
+| "Ligar todas" não responde | Atualize para a **v1.0.1** e recarregue com `Ctrl+F5` |
+| `main file missing from sketch` | A pasta precisa ter o mesmo nome do `.ino` ([INSTALACAO.md](docs/INSTALACAO.md)) |
+| Não abre em `*.local` | Use o IP; mDNS pode não resolver em toda rede |
+| HA mostra "offline" | Confira IP/usuário/senha do broker (o motivo aparece no painel) |
+| Falha ao gravar ("Timed out") | Segure **BOOT** ao iniciar a gravação; confira o cabo/porta |
+
+Mais respostas na seção **Perguntas frequentes** do
+[docs/MANUAL.md](docs/MANUAL.md#9-perguntas-frequentes).
+
+## Documentação
+
+| Documento | Conteúdo |
+|---|---|
+| [docs/MANUAL.md](docs/MANUAL.md) | Manual de utilização — todas as funções |
+| [docs/INSTALACAO.md](docs/INSTALACAO.md) | Compilar e gravar (IDE/CLI) |
+| [docs/HARDWARE.md](docs/HARDWARE.md) | Pinagem, ligação e segurança |
+| [docs/MQTT_HOME_ASSISTANT.md](docs/MQTT_HOME_ASSISTANT.md) | Tópicos e integração com o HA |
+| [docs/API.md](docs/API.md) | Referência da API HTTP |
+| [CHANGELOG.md](CHANGELOG.md) | Histórico de versões |
+| [SECURITY.md](SECURITY.md) | Boas práticas de segurança |
+
+## Contribuindo
+
+Sugestões e correções são bem-vindas! Veja
+[CONTRIBUTING.md](CONTRIBUTING.md). Este projeto segue o
+[Código de Conduta](CODE_OF_CONDUCT.md).
+
+## Licença
+
+Distribuído sob a licença **[MIT](LICENSE)**.
+
+---
+
+<div align="center">
+
+Feito por **Marcos (mpsc)** · ⭐ se este projeto foi útil para você
+
+</div>

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Manual de utilização
+    url: https://github.com/mpsc/esp32-8ch-relay-ha/blob/main/docs/MANUAL.md
+    about: Guia completo de uso do painel web, configuração, MQTT e Home Assistant.
+  - name: 🔧 Instalação e gravação
+    url: https://github.com/mpsc/esp32-8ch-relay-ha/blob/main/docs/INSTALACAO.md
+    about: Como compilar e gravar o firmware no ESP32.
+  - name: ❓ Discussão / dúvidas
+    url: https://github.com/mpsc/esp32-8ch-relay-ha/discussions
+    about: Para dúvidas gerais e conversas, use as Discussions.
